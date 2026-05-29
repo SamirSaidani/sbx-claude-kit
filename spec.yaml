@@ -2,19 +2,23 @@ schemaVersion: "1"
 kind: mixin
 name: claude-settings
 displayName: Claude Settings
-description: Inject ~/.claude/settings.json and PulseAudio tunnel on every sandbox start
+description: Inject ~/.claude/settings.json and PulseAudio access on every sandbox start
+
+network:
+  allowedDomains:
+    - localhost:4713
 
 environment:
   variables:
-    PULSE_SERVER: tcp:127.0.0.1:4713
+    PULSE_SERVER: tcp:host.docker.internal:4713
 
 commands:
   install:
-    - command: apt-get install -y --no-install-recommends sound-theme-freedesktop socat sox libsox-fmt-pulse pulseaudio-utils
+    - command: apt-get install -y --no-install-recommends sound-theme-freedesktop sox libsox-fmt-pulse pulseaudio-utils
       user: "0"
-      description: Install freedesktop sounds, socat, SoX and PulseAudio utils
+      description: Install freedesktop sounds, SoX and PulseAudio utils
 
   startup:
     - command: ["sh", "/home/agent/.sbx/init.sh"]
       user: "1000"
-      description: Inject Claude settings.json and start PulseAudio tunnel
+      description: Inject Claude settings.json

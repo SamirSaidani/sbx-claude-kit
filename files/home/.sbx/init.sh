@@ -2,9 +2,6 @@
 # Inject Claude config files after sbx init
 mkdir -p /home/agent/.claude
 
-# PulseAudio tunnel via HTTP CONNECT proxy
-socat TCP-LISTEN:4713,fork,reuseaddr PROXY:gateway.docker.internal:172.17.0.1:4713,proxyport=3128 &
-
 # Copy files to .claude/
 cp /home/agent/.sbx/statusline-command.sh /home/agent/.claude/statusline-command.sh
 chmod +x /home/agent/.claude/statusline-command.sh
